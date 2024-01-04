@@ -1,0 +1,7 @@
+.app-container {
+	display: grid;
+	place-content: center;
+	height: 100%;
+	/* ? */
+	margin-top: 25px;
+}

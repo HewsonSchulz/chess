@@ -1,0 +1,16 @@
+.margin-ranks {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	color: var(--light-tile);
+}
+
+.margin-files {
+	grid-column: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	color: var(--light-tile);
+	height: calc(0.25 * var(--tile-size));
+}
