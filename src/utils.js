@@ -2,44 +2,52 @@ export const getLetter = (n) => {
 	return String.fromCharCode(n + 96)
 }
 
-export const generatePiecePositions = () => {
-	const positions = new Array(8).fill().map(() => new Array(8).fill(''))
+export const generatePiecePosition = () => {
+	const position = new Array(8).fill().map(() => new Array(8).fill(''))
 
 	// white pieces
-	positions[0][0] = 'wr'
-	positions[0][1] = 'wn'
-	positions[0][2] = 'wb'
-	positions[0][3] = 'wq'
-	positions[0][4] = 'wk'
-	positions[0][5] = 'wb'
-	positions[0][6] = 'wn'
-	positions[0][7] = 'wr'
+	position[0][0] = 'wr'
+	position[0][1] = 'wn'
+	position[0][2] = 'wb'
+	position[0][3] = 'wq'
+	position[0][4] = 'wk'
+	position[0][5] = 'wb'
+	position[0][6] = 'wn'
+	position[0][7] = 'wr'
 
-	positions[1] = new Array(8).fill('w') // white pawns
+	// position[1] = new Array(8).fill('w') // white pawns
 
 	// black pieces
-	positions[7][0] = 'br'
-	positions[7][1] = 'bn'
-	positions[7][2] = 'bb'
-	positions[7][3] = 'bq'
-	positions[7][4] = 'bk'
-	positions[7][5] = 'bb'
-	positions[7][6] = 'bn'
-	positions[7][7] = 'br'
+	position[7][0] = 'br'
+	position[7][1] = 'bn'
+	position[7][2] = 'bb'
+	position[7][3] = 'bq'
+	position[7][4] = 'bk'
+	position[7][5] = 'bb'
+	position[7][6] = 'bn'
+	position[7][7] = 'br'
 
-	positions[6] = new Array(8).fill('b') // black pawns
+	// position[6] = new Array(8).fill('b') // black pawns
 
-	return positions
+	return position
 }
 
-export const copyPosition = (positions) => {
+export const copyPosition = (position) => {
 	const newPosition = new Array(8).fill().map(() => new Array(8).fill(''))
 
 	for (let rank = 0; rank < 8; rank++) {
 		for (let file = 0; file < 8; file++) {
-			newPosition[rank][file] = positions[rank][file]
+			newPosition[rank][file] = position[rank][file]
 		}
 	}
 
 	return newPosition
+}
+
+export const getAppData = (appContext) => {
+	const { appState, dispatch } = appContext
+	const { turn, position } = appState
+	const currentPosition = position[position.length - 1]
+
+	return [dispatch, turn, position, currentPosition]
 }

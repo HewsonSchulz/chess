@@ -1,11 +1,15 @@
-import { useRef, useState } from 'react'
-import { copyPosition, generatePiecePositions } from '../../utils'
+import { useRef } from 'react'
+import { copyPosition, getAppData } from '../../utils'
 import { Piece } from './Piece'
 import './Pieces.css'
+import { useAppContext } from '../../contexts/Context'
+import { makeNewMove } from '../../reducer/actions/move'
 
 export const Pieces = () => {
-	const [positions, setPositions] = useState(generatePiecePositions())
+	// const [position, setPosition] = useState(generatePiecePosition())
 	const ref = useRef()
+
+	const [dispatch, turn, position, currentPosition] = getAppData(useAppContext())
 
 	const calcCoords = (e) => {
 		const { width, left, top } = ref.current.getBoundingClientRect()
@@ -15,7 +19,7 @@ export const Pieces = () => {
 	}
 
 	const onDrop = (e) => {
-		const newPosition = copyPosition(positions)
+		const newPosition = copyPosition(currentPosition)
 		const { x, y } = calcCoords(e)
 
 		const [piece, rank, file] = e.dataTransfer.getData('text').split(',')
@@ -23,14 +27,16 @@ export const Pieces = () => {
 		newPosition[rank][file] = ''
 		newPosition[x][y] = piece
 
-		setPositions(newPosition)
+		dispatch(makeNewMove({ newPosition }))
 	}
 
 	return (
 		<div className='pieces' onDrop={onDrop} onDragOver={(e) => e.preventDefault()} ref={ref}>
-			{positions.map((rank, i) =>
+			{currentPosition.map((rank, i) =>
 				rank.map((file, j) =>
-					positions[i][j] ? <Piece key={i + '-' + j} rank={i} file={j} piece={positions[i][j]} /> : null
+					currentPosition[i][j] ? (
+						<Piece key={i + '-' + j} rank={i} file={j} piece={currentPosition[i][j]} />
+					) : null
 				)
 			)}
 		</div>
